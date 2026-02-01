@@ -65,5 +65,6 @@ fox32$(TARGET_FILE_EXTENSION): $(TARGET_EXTRADEPS) $(OBJS)
 %.o: %.c $(FOX32ROM_OUT)
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+.PHONY: clean
 clean:
 	rm -rf fox32 fox32.exe fox32.wasm fox32.html fox32.data fox32.js fox32rom.h $(OBJS)
