@@ -2,18 +2,18 @@ TARGET = linux
 ifeq ($(TARGET),linux)
 # default is used for CC
 SDL2_CONFIG = sdl2-config
-CFLAGS += -g -Ofast -std=c99 -Wall -Wextra `$(SDL2_CONFIG) --cflags`
+CFLAGS += -g -O3 -ffast-math -std=c99 -Wall -Wextra `$(SDL2_CONFIG) --cflags`
 LDFLAGS += `$(SDL2_CONFIG) --libs`
 else
 ifeq ($(TARGET),aarch64-darwin)
 SDL2_CONFIG = sdl2-config
-CFLAGS += -g -Ofast -std=c99 -Wall -Wextra -I`$(SDL2_CONFIG) --prefix`/include -D_THREAD_SAFE
+CFLAGS += -g -O3 -ffast-math -std=c99 -Wall -Wextra -I`$(SDL2_CONFIG) --prefix`/include -D_THREAD_SAFE
 LDFLAGS += `$(SDL2_CONFIG) --libs`
 else
 ifeq ($(TARGET),mingw)
 CC = x86_64-w64-mingw32-gcc
 SDL2_CONFIG = /usr/local/x86_64-w64-mingw32/bin/sdl2-config
-CFLAGS += -g -Ofast -std=c99 -Wall -Wextra -DWINDOWS -I/usr/local/x86_64-w64-mingw32/include -Dmain=SDL_main
+CFLAGS += -g -O3 -ffast-math -std=c99 -Wall -Wextra -DWINDOWS -I/usr/local/x86_64-w64-mingw32/include -Dmain=SDL_main
 LDFLAGS += -lmingw32 -lSDL2main -lSDL2 -L/usr/local/x86_64-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2
 TARGET_FILE_EXTENSION = .exe
 else
@@ -65,5 +65,6 @@ fox32$(TARGET_FILE_EXTENSION): $(TARGET_EXTRADEPS) $(OBJS)
 %.o: %.c $(FOX32ROM_OUT)
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+.PHONY: clean
 clean:
 	rm -rf fox32 fox32.exe fox32.wasm fox32.html fox32.data fox32.js fox32rom.h $(OBJS)
