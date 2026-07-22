@@ -108,6 +108,19 @@ write to it to set the base.
   1     | buffer 0 refill pending flag
   0     | buffer mode (0=use channels, 1=use buffer)
 
+During a refill interrupt, a 0 should be written to the corresponding buffer refill pending flag. This can be done with
+the following:
+```avrasm
+; acknowledge interrupt for buffer 0
+in r0, 0x80000681
+bcl r0, 1
+out 0x80000681, r0
+; acknowledge interrupt for buffer 1
+in r0, 0x80000681
+bcl r0, 2
+out 0x80000681, r0
+```
+
 Bits 15 to 8 specify the rate at which samples are fetched from the buffer. The formula for calculating
 the rate for a given sample rate (F) is $\frac{F}{48000}\times2^{7}$. A value of 0 halts the internal counter and
 no samples are fetched until a non-zero rate is set.
