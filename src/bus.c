@@ -96,7 +96,7 @@ int bus_io_read(void *user, uint32_t *value, uint32_t port) {
         }
         case 0x80000600 ... 0x80000684: { // audio port
             size_t id = port & 0xFF;
-            uint8_t channel = (id & 0x30) >> 4;
+            uint8_t channel = (id & 0x70) >> 4;
             uint8_t reg = (id & 0x0F);
             if (id >= 0x80) {
                 switch (id) {
@@ -293,7 +293,7 @@ int bus_io_write(void *user, uint32_t value, uint32_t port) {
 
         case 0x80000600 ... 0x80000684: { // audio port
             size_t id = port & 0xFF;
-            uint8_t channel = (id & 0x30) >> 4;
+            uint8_t channel = (id & 0x70) >> 4;
             uint8_t reg = (id & 0x0F);
             if (id >= 0x80) {
                 switch (id) {
